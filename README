@@ -1,0 +1,80 @@
+                                   JITSU
+
+Jitsu is a JavaScript unit test library. Drop this file in the test directory
+with js test files. Run these tests passing there name on command line:
+
+  jrunscript jitsu.js test1.js test2.js
+
+This script will load test files and run test functions they contain (that is
+functions which name starts with "test"). A typical test might look like this:
+
+--8<----------------------------------------------------------------------------
+load("../src/webapp/js/mylib.js");
+
+function testIsValidMail() {
+    assertTrue(isValidMail("michel.casabianca@gmail.com"), "Nominal");
+    assertFalse(isValidMail("michel.casabianca.gmail.com"), "No @");
+    assertFalse(isValidMail("michel.casabianca@gmail"), "No extension");
+}
+
+function testPasswordIsValid() {
+    assertTrue(isPasswordValid("abcd+123"), "Nominal");
+    assertFalse(isPasswordValid("abc+123"), "Too short");
+    assertFalse(isPasswordValid("abcd1234"), "No special char");
+}
+--8<----------------------------------------------------------------------------
+
+Test files may contain setUp() and/or tearDown() functions, such as:
+
+--8<----------------------------------------------------------------------------
+function setUp() {
+    println("setUp()")
+}
+
+function tearDown() {
+    println("tearDown()")
+}
+--8<----------------------------------------------------------------------------
+
+Function setUp() will run before each test and tearDown() after each one. These
+functions are useful to setup and free resources needed for each test.
+
+Assertions are the following:
+
+- assertEqual(actual, expected, message): checks that expected and actual are
+  equal, else raises an exception (with message if provided).
+- assertNotEqual(actual, expected, message): checks that expected and actual
+  are not equal, else raises an exception (with message if provided).
+- assertStrictEqual(actual, expected, message): checks that expected and actual
+  are strictly equal, else raises an exception (with message if provided).
+- assertStrictNotEqual(actual, expected, message): checks that expected and 
+  actual are not strictly equal, else raises an exception (with message if 
+  provided).
+- assertTrue(actual, message): checks that actual is true, else raises an
+  exception (with message if provided).
+- assertFalse(actual, message): checks that actual is false, else raises an
+  exception (with message if provided).
+- assertRaise(testFunction, pattern, message): checks that testFunction raises
+  an error which message matches pattern, else raises an exception (with message
+  if provided).
+
+You can see an example test file in testJitsu.js that tests Jitsu itself. You
+can run these tests typing:
+
+  $ jrunscript jitsu.js testJitsu.js
+  Loading 1 JavaScript test file(s)
+  Running 'testJitsu.js'........... OK
+  OK
+
+A dot is printed on command line for each test function running.
+
+Enjoy!
+
+--------------------------------------------------------------------------------
+
+TODO:
+
+- Make it run with Node.js (some features, such as getting command line 
+  parameters, depend one Rhino implementation and won't run on Node).
+
+- Run tests in their own context so that it won't interfere with Jitsu.
