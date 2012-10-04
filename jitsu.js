@@ -105,7 +105,6 @@ function runTestFile(testFileName) {
         out.flush();
         if(this.setUp) setUp();
         try {
-             print("\nrunning " + this[functions[index]].name +"\n");
             this[functions[index]]();
         } catch(exception) {
             if(!errors[testFileName]) {
