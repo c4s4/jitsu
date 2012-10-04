@@ -57,8 +57,8 @@ function assertRaise(testFunction, pattern, message) {
     }
     if(message && (!error || !errorMessage.match(pattern))) throw message;
     else {
-        if(!error) throw "No exception was raised"
-        if(error && !errorMessage.match(pattern)) throw "Error message doesn't match pattern"
+        if(!error) throw "No exception was raised";
+        if(error && !errorMessage.match(pattern)) throw "Error message doesn't match pattern";
     }
 }
 
@@ -66,11 +66,11 @@ function assertRaise(testFunction, pattern, message) {
 //                             UNIT TEST RUNNER                               //
 ////////////////////////////////////////////////////////////////////////////////
 
-var errors = {}
-var error = false
+var errors = {};
+var error = false;
 
 function getNames() {
-    var names = []
+    var names = [];
     for (var name in this) {
         names.push(name);
     }
@@ -103,18 +103,18 @@ function runTestFile(testFileName) {
     for(var index in functions) {
         print(".");
         out.flush();
-        if(this["setUp"]) setUp();
+        if(this.setUp) setUp();
         try {
             this[functions[index]]();
         } catch(exception) {
             if(!errors[testFileName]) {
-                errors[testFileName] = {}
+                errors[testFileName] = {};
             }
             errors[testFileName][functions[index]] = String(exception);
             error = true;
             testOK = false;
         }
-        if(this["tearDown"]) tearDown();
+        if(this.tearDown) tearDown();
     }
     if(testOK) println(" OK");
     else println(" ERROR");
