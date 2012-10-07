@@ -12,14 +12,14 @@ function testSetUp() {
 
 function testTearDown1() {
     if(typeof(testTearDown) == "boolean" && testTearDown) {
-        assertTrue(tearDownRun)
+        assertTrue(tearDownRun);
     }
     testTearDown = true;
 }
 
 function testTearDown2() {
     if(typeof(testTearDown) == "boolean" && testTearDown) {
-        assertTrue(tearDownRun)
+        assertTrue(tearDownRun);
     }
     testTearDown = true;
 }
