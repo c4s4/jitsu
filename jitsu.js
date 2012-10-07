@@ -85,14 +85,19 @@ function arrayContains(aray, element) {
 }
 
 function runTestFile(testFileName) {
-    testOK = true;
-    print("Running '" + testFileName + "'");
-    out.flush();
     var namesBefore = getNames();
     load(testFileName);
+    var functions = lookupTestFunctions(namesBefore);
+
+    runTests(testFileName, functions);
+
+    deleteAllThatWasDefinedLoadingAndRunningTestfile(namesBefore);
+    
+}
+function lookupTestFunctions(namesBefore) {
     var namesAfter = getNames();
     var functions = [];
-    for(index in namesAfter) {
+    for(var index in namesAfter) {
         var name = namesAfter[index];
         if(!arrayContains(namesBefore, name)) {
             if(typeof(this[name]) == "function" && name.match(/^test/)) {
@@ -100,6 +105,14 @@ function runTestFile(testFileName) {
             }
         }
     }
+    return functions;
+}
+
+function runTests(testFileName, functions) {
+    var testOK = true;
+    print("Running '" + testFileName + "'");
+    out.flush();
+
     for(var index in functions) {
         print(".");
         out.flush();
@@ -118,9 +131,11 @@ function runTestFile(testFileName) {
     }
     if(testOK) println(" OK");
     else println(" ERROR");
-    // delete all that was defined loading and running test file
+}
+
+function deleteAllThatWasDefinedLoadingAndRunningTestfile(namesBefore) {
     var namesAfter = getNames();
-    for(index in namesAfter) {
+    for(var index in namesAfter) {
         var name = namesAfter[index];
         if(!arrayContains(namesBefore, name)) {
             delete this[name];
