@@ -78,3 +78,7 @@ function sleep(time) {
         diff = n - d;
     }
 }
+
+function testFail() {
+    assertRaise(function() {fail("TEST");}, /TEST/);
+}

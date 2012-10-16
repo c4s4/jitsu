@@ -58,6 +58,10 @@ Assertions are the following:
   an error which message matches pattern, else raises an exception (with message
   if provided).
 
+Furthermore, there is a function to fail a test:
+
+- fail(message): will fail the test with a given message.
+
 You can see an example test file in testJitsu.js that tests Jitsu itself. You
 can run these tests typing:
 

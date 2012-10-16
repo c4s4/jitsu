@@ -62,6 +62,10 @@ function assertRaise(testFunction, pattern, message) {
     }
 }
 
+function fail(message) {
+    throw message;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //                             UNIT TEST RUNNER                               //
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,12 +92,10 @@ function runTestFile(testFileName) {
     var namesBefore = getNames();
     load(testFileName);
     var functions = lookupTestFunctions(namesBefore);
-
     runTests(testFileName, functions);
-
-    deleteAllThatWasDefinedLoadingAndRunningTestfile(namesBefore);
-    
+    cleanNamespace(namesBefore);
 }
+
 function lookupTestFunctions(namesBefore) {
     var namesAfter = getNames();
     var functions = [];
@@ -112,7 +114,6 @@ function runTests(testFileName, functions) {
     var testOK = true;
     print("Running '" + testFileName + "'");
     out.flush();
-
     for(var index in functions) {
         print(".");
         out.flush();
@@ -133,7 +134,7 @@ function runTests(testFileName, functions) {
     else println(" ERROR");
 }
 
-function deleteAllThatWasDefinedLoadingAndRunningTestfile(namesBefore) {
+function cleanNamespace(namesBefore) {
     var namesAfter = getNames();
     for(var index in namesAfter) {
         var name = namesAfter[index];
