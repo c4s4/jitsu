@@ -1,7 +1,8 @@
                                    JITSU
 
 Jitsu is a JavaScript unit test library. Drop this file in the test directory
-with js test files. Run these tests passing there name on command line:
+with js test files. Run these tests with jrunscript (that is a JavaScript
+VM included with Java JDK) passing there name on command line:
 
   jrunscript jitsu.js test1.js test2.js
 
