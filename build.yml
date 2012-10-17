@@ -1,0 +1,8 @@
+- build:       jitsu
+  description: Build file for Jitsu project
+  default:     test
+
+- target:      test
+  description: Run Jitsu unit tests
+  script:
+  - "jrunscript jitsu.js testJitsu.js"
