@@ -2,4 +2,4 @@
 #
 # Run Jitsu unit tests
 
-jrunscript jitsu.js testJitsu.js
+node jitsu.js testJitsu.js
