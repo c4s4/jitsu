@@ -1,4 +1,3 @@
-importPackage(javax.script.argv);
 
 ////////////////////////////////////////////////////////////////////////////////
 //                        UTILITY FUNCTIONS FOR TESTS                         //
@@ -90,7 +89,7 @@ function arrayContains(aray, element) {
 
 function runTestFile(testFileName) {
     var namesBefore = getNames();
-    load(testFileName);
+    require('./'+testFileName);
     var functions = lookupTestFunctions(namesBefore);
     runTests(testFileName, functions);
     cleanNamespace(namesBefore);
@@ -112,11 +111,9 @@ function lookupTestFunctions(namesBefore) {
 
 function runTests(testFileName, functions) {
     var testOK = true;
-    print("Running '" + testFileName + "'");
-    out.flush();
+    console.log("Running '" + testFileName + "'");
     for(var index in functions) {
-        print(".");
-        out.flush();
+        console.log(".");
         if(this.setUp) setUp();
         try {
             this[functions[index]]();
@@ -130,8 +127,8 @@ function runTests(testFileName, functions) {
         }
         if(this.tearDown) tearDown();
     }
-    if(testOK) println(" OK");
-    else println(" ERROR");
+    if(testOK) console.log(" OK");
+    else console.log(" ERROR");
 }
 
 function cleanNamespace(namesBefore) {
@@ -144,20 +141,27 @@ function cleanNamespace(namesBefore) {
     }
 }
 
-println("Loading " + arguments.length + " JavaScript test file(s)");
-for(var i=0; i<arguments.length; i++) {
-    runTestFile(String(arguments[i]));
+if( (process.argv.length - 2) == 0){
+  console.log('no test file to run !');
+  process.exit(1);
 }
+console.log("Loading " + (process.argv.length - 2) + " JavaScript test file(s)");
+
+process.argv.forEach(function (val, index, array) {
+  if(index > 1){
+     runTestFile(val);
+  }  
+});
 
 if(error) {
-    println("ERRORS:");
+    console.log("ERRORS:");
     for(var testFileName in errors) {
-        println(testFileName + ":");
+        console.log(testFileName + ":");
         for(var functionName in errors[testFileName]) {
-            println("- " + functionName + ": " + errors[testFileName][functionName]);
+            console.log("- " + functionName + ": " + errors[testFileName][functionName]);
         }
     }
     exit(1);
 } else {
-    println("OK");
+    console.log("OK");
 }
